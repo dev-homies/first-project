@@ -1,23 +1,22 @@
 package main
 
 import (
-	"encoding/json"
-	"log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 type IndexResponse struct {
 	Body string `json:"body"`
 }
 
-func index(w http.ResponseWriter, r *http.Request) {
+func index(c *gin.Context) {
 	response := IndexResponse{Body: "Hello world!"}
-	json.NewEncoder(w).Encode(response)
+	c.JSON(http.StatusOK, response)
 }
 
 func main() {
-	log.Println("Starting server on 0.0.0.0:4000, url: http://localhost:4000")
-
-	http.HandleFunc("/", index)
-	http.ListenAndServe(":4000", nil)
+	r := gin.Default()
+	r.GET("/", index)
+	r.Run(":4000")
 }
