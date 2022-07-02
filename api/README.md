@@ -6,6 +6,12 @@ Dependencies
 
 - Go 1.18
 
+### Install Dependencies
+
+```
+go get
+```
+
 ### Run the API
 
 ```
