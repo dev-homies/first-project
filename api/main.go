@@ -16,13 +16,12 @@ type IndexResponse struct {
 }
 
 type User struct {
-    bun.BaseModel `bun:"table:users,alias:u"`
+	bun.BaseModel `bun:"table:users,alias:u"`
 
-	ID	 	 int64  `bun:",pk,autoincrement,type:uuid"`
-	Name 	 string
+	ID       int64 `bun:",pk,autoincrement,type:uuid"`
+	Name     string
 	Password string
 }
-
 
 func index(c *gin.Context) {
 	response := IndexResponse{Body: "Hello world!"}
@@ -38,12 +37,11 @@ func main() {
 	v1 := r.Group("/v1")
 	v1.GET("/", index)
 
-	
 	r.Run(":4000")
 }
 
 func CreateTables(ctx context.Context) {
-	
+
 	dsn := "postgres://postgres:dev@localhost:5432/firstproject?sslmode=disable"
 	sqldb := sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(dsn)))
 
@@ -54,4 +52,3 @@ func CreateTables(ctx context.Context) {
 		panic(err)
 	}
 }
-
