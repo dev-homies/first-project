@@ -19,13 +19,12 @@ type IndexResponse struct {
 }
 
 type User struct {
-    bun.BaseModel `bun:"table:users,alias:u"`
+  bun.BaseModel `bun:"table:users,alias:u"`
 
 	ID	 	 int64  `bun:",pk,autoincrement"`
 	Name 	 string
 	Password string
 }
-
 
 func index(c *gin.Context) {
 	response := IndexResponse{Body: "Hello world!"}
@@ -68,7 +67,6 @@ func main() {
 
 	// Create gin server
 	r := gin.Default()
-
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:4000"},
 		AllowMethods:     []string{"POST", "GET", "PUT", "DELETE"},
@@ -84,7 +82,6 @@ func main() {
 	v1.GET("/", index)
 	v1.POST("/register", Register)
 
-	
 	r.Run(":4000")
 }
 
@@ -92,11 +89,10 @@ func CreateTables(ctx context.Context) {
 	dsn := "postgres://postgres:dev@localhost:5432/firstproject?sslmode=disable"
 	sqldb := sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(dsn)))
 	db := bun.NewDB(sqldb, pgdialect.New())
-	
+
 	_, err := db.NewCreateTable().IfNotExists().
 		Model((*User)(nil)).Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 }
-
