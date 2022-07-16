@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import axios from "axios";
 
 const schema = yup
   .object({
@@ -25,13 +26,17 @@ const RegisterForm = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const callAPIFormCompleted = (data: any) => console.log(data);
+
+  const onUserSubmit = (data: any) => {
+    console.log(data);
+    axios.post("http://localhost:4000/v1/register", data);
+  };
 
   return (
     <>
       <div className="h-screen w-screen">
         <div className="flex h-full items-center justify-center px-4">
-          <form onSubmit={handleSubmit(callAPIFormCompleted)}>
+          <form onSubmit={handleSubmit(onUserSubmit)}>
             <input {...register("name")} type="text" placeholder="Name" className="input input-bordered mb-2 w-full" />
             <input
               {...register("username")}
