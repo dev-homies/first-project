@@ -19,10 +19,10 @@ type IndexResponse struct {
 }
 
 type User struct {
-  bun.BaseModel `bun:"table:users,alias:u"`
+	bun.BaseModel `bun:"table:users,alias:u"`
 
-	ID	 	 int64  `bun:",pk,autoincrement"`
-	Name 	 string
+	ID       int64 `bun:",pk,autoincrement"`
+	Name     string
 	Password string
 }
 
@@ -45,7 +45,7 @@ func Register(c *gin.Context) {
 	}
 
 	userInfo := &User{
-		Name: user.Name,
+		Name:     user.Name,
 		Password: user.Password,
 	}
 
@@ -73,8 +73,8 @@ func main() {
 		AllowHeaders:     []string{"authorization", "Content-Type", "X-Requested-With", "User-Agent"},
 		ExposeHeaders:    []string{"Content-Range", "Content-Length"},
 		AllowCredentials: true,
-		AllowOriginFunc: func(origin string) bool { return true },
-		MaxAge: 12 * time.Hour,
+		AllowOriginFunc:  func(origin string) bool { return true },
+		MaxAge:           12 * time.Hour,
 	}))
 
 	// Add version to api, set to a group
