@@ -1,16 +1,16 @@
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 const schema = yup
   .object({
     email: yup.string().email(),
     password: yup
       .string()
-      .required("Please Enter your password")
+      .required('Please Enter your password')
       .matches(
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+        'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character'
       ),
   })
   .required();
@@ -31,13 +31,13 @@ const LoginForm = () => {
         <div className="flex h-full items-center justify-center px-4">
           <form onSubmit={handleSubmit(callAPIFormCompleted)}>
             <input
-              {...register("email")}
+              {...register('email')}
               type="email"
               placeholder="Email"
               className="input input-bordered mb-2 w-full"
             />
             <input
-              {...register("password")}
+              {...register('password')}
               type="password"
               placeholder="Password"
               className="input input-bordered mb-2 w-full"
