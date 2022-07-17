@@ -4,11 +4,14 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/pgdialect"
 	"github.com/uptrace/bun/driver/pgdriver"
@@ -19,10 +22,10 @@ type IndexResponse struct {
 }
 
 type User struct {
-  bun.BaseModel `bun:"table:users,alias:u"`
+	bun.BaseModel `bun:"table:users,alias:u"`
 
-	ID	 	 int64  `bun:",pk,autoincrement"`
-	Name 	 string
+	ID       int64 `bun:",pk,autoincrement"`
+	Name     string
 	Password string
 }
 
@@ -31,10 +34,22 @@ func index(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-func Register(c *gin.Context) {
-	dsn := "postgres://postgres:dev@localhost:5432/firstproject?sslmode=disable"
+func GetDBConnection() *bun.DB {
+	dsn := fmt.Sprintf(
+		"postgres://%s:%s@%s:%s/%s?sslmode=disable",
+		os.Getenv("DATABASE_USER"),
+		os.Getenv("DATABASE_PASSWORD"),
+		os.Getenv("DATABASE_HOST"),
+		os.Getenv("DATABASE_PORT"),
+		os.Getenv("DATABASE_DB"),
+	)
+
 	sqldb := sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(dsn)))
-	db := bun.NewDB(sqldb, pgdialect.New())
+	return bun.NewDB(sqldb, pgdialect.New())
+}
+
+func Register(c *gin.Context) {
+	db := GetDBConnection()
 	user := User{}
 
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -45,7 +60,7 @@ func Register(c *gin.Context) {
 	}
 
 	userInfo := &User{
-		Name: user.Name,
+		Name:     user.Name,
 		Password: user.Password,
 	}
 
@@ -63,18 +78,23 @@ func Register(c *gin.Context) {
 }
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	CreateTables(context.Background())
 
 	// Create gin server
 	r := gin.Default()
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:4000"},
+		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"POST", "GET", "PUT", "DELETE"},
 		AllowHeaders:     []string{"authorization", "Content-Type", "X-Requested-With", "User-Agent"},
 		ExposeHeaders:    []string{"Content-Range", "Content-Length"},
 		AllowCredentials: true,
-		AllowOriginFunc: func(origin string) bool { return true },
-		MaxAge: 12 * time.Hour,
+		AllowOriginFunc:  func(origin string) bool { return true },
+		MaxAge:           12 * time.Hour,
 	}))
 
 	// Add version to api, set to a group
@@ -86,12 +106,9 @@ func main() {
 }
 
 func CreateTables(ctx context.Context) {
-	dsn := "postgres://postgres:dev@localhost:5432/firstproject?sslmode=disable"
-	sqldb := sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(dsn)))
-	db := bun.NewDB(sqldb, pgdialect.New())
+	db := GetDBConnection()
 
-	_, err := db.NewCreateTable().IfNotExists().
-		Model((*User)(nil)).Exec(ctx)
+	_, err := db.NewCreateTable().IfNotExists().Model((*User)(nil)).Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
