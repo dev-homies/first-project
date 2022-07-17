@@ -27,9 +27,11 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
-          key: ${{ runner.os }}-api-${{ hashFiles('**/go.sum') }}-v1
+          key: ${{ runner.os }}-api-${{ hashFiles('**/go.sum') }}-v2
           path: |
+            ~/.cache/go-build
             ~/go/pkg/mod
+            ~/go/bin
 
       - name: Run formatters
         run: if [ "$(gofmt -s -l . | wc -l)" -gt 0 ]; then exit 1; fi
@@ -55,7 +57,7 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
-          key: ${{ runner.os }}-web-${{ hashFiles('**/package-lock.json') }}-v1
+          key: ${{ runner.os }}-web-${{ hashFiles('**/package-lock.json') }}-v2
           path: |
             ~/.npm
             node_modules
