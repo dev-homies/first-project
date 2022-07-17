@@ -27,7 +27,7 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
-          key: ${{ runner.os }}-api-${{ hashFiles('**/go.sum') }}-v2
+          key: ${{ runner.os }}-api-${{ hashFiles('**/go.sum') }}-v3
           path: |
             ~/.cache/go-build
             ~/go/pkg/mod
@@ -57,11 +57,11 @@ jobs:
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
-          key: ${{ runner.os }}-web-${{ hashFiles('**/package-lock.json') }}-v2
+          key: ${{ runner.os }}-web-${{ hashFiles('**/package-lock.json') }}-v3
           path: |
             ~/.npm
-            node_modules
-            .next/cache
+            web/node_modules
+            web/.next/cache
 
       - name: Install dependencies
         run: npm install
