@@ -36,6 +36,11 @@ jobs:
       - name: Run formatters
         run: if [ "$(gofmt -s -l . | wc -l)" -gt 0 ]; then exit 1; fi
 
+      - name: Run linters
+        run: |
+          go mod tidy
+          git diff --exit-code go.mod
+
       - name: Build API
         run: go build main.go
 
