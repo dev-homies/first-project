@@ -7,6 +7,8 @@
     "bradlc.vscode-tailwindcss",
     "csstools.postcss",
     "jock.svg",
-    "ms-azuretools.vscode-docker"
+    "ms-azuretools.vscode-docker",
+    "ms-vscode-remote.remote-containers",
+    "bungcip.better-toml"
   ]
 }

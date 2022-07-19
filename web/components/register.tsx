@@ -36,7 +36,7 @@ const RegisterForm = () => {
   });
 
   const mutation = useMutation((formData: RegisterFormType) => {
-    return Axios.post('http://localhost:4000/v1/register', formData);
+    return Axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/v1/register`, formData);
   });
 
   const onUserSubmit = (data: RegisterFormType) => mutation.mutate(data);
