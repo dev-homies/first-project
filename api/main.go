@@ -88,7 +88,7 @@ func main() {
 	// Create gin server
 	r := gin.Default()
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},
+		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:4000"},
 		AllowMethods:     []string{"POST", "GET", "PUT", "DELETE"},
 		AllowHeaders:     []string{"authorization", "Content-Type", "X-Requested-With", "User-Agent"},
 		ExposeHeaders:    []string{"Content-Range", "Content-Length"},

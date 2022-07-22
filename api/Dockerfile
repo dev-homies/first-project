@@ -7,8 +7,8 @@ WORKDIR /api
 
 RUN apk add build-base
 
-RUN go install github.com/cosmtrek/air@latest
-RUN go install github.com/go-delve/delve/cmd/dlv@latest
+RUN go install github.com/cosmtrek/air@v1.40
+RUN go install github.com/go-delve/delve/cmd/dlv@v1.9
 
 COPY go.mod go.mod
 COPY go.sum go.sum
