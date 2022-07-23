@@ -20,12 +20,37 @@
         "uriFormat": "%s",
         "action": "debugWithChrome"
       }
+    },
+    {
+      "name": "Docker: Debug API",
+      "type": "go",
+      "request": "attach",
+      "mode": "remote",
+      "substitutePath": [{ "from": "${workspaceFolder}/api", "to": "/api" }],
+      "host": "localhost",
+      "port": 2345,
+      "showLog": true,
+      "apiVersion": 2,
+      "trace": "verbose"
+    },
+    {
+      "name": "Docker: Debug Web",
+      "type": "node",
+      "request": "attach",
+      "address": "localhost",
+      "port": 9229,
+      "localRoot": "${workspaceFolder}/web",
+      "remoteRoot": "/web"
     }
   ],
   "compounds": [
     {
       "name": "Launch All",
       "configurations": ["Launch API", "Launch Web"]
+    },
+    {
+      "name": "Docker: Debug All",
+      "configurations": ["Docker: Debug API", "Docker: Debug Web"]
     }
   ]
 }

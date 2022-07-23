@@ -4,11 +4,14 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dialect/pgdialect"
 	"github.com/uptrace/bun/driver/pgdriver"
@@ -31,10 +34,22 @@ func index(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
-func Register(c *gin.Context) {
-	dsn := "postgres://postgres:dev@localhost:5432/firstproject?sslmode=disable"
+func GetDBConnection() *bun.DB {
+	dsn := fmt.Sprintf(
+		"postgres://%s:%s@%s:%s/%s?sslmode=disable",
+		os.Getenv("DATABASE_USER"),
+		os.Getenv("DATABASE_PASSWORD"),
+		os.Getenv("DATABASE_HOST"),
+		os.Getenv("DATABASE_PORT"),
+		os.Getenv("DATABASE_DB"),
+	)
+
 	sqldb := sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(dsn)))
-	db := bun.NewDB(sqldb, pgdialect.New())
+	return bun.NewDB(sqldb, pgdialect.New())
+}
+
+func Register(c *gin.Context) {
+	db := GetDBConnection()
 	user := User{}
 
 	if err := c.ShouldBindJSON(&user); err != nil {
@@ -63,6 +78,11 @@ func Register(c *gin.Context) {
 }
 
 func main() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	CreateTables(context.Background())
 
 	// Create gin server
@@ -86,12 +106,9 @@ func main() {
 }
 
 func CreateTables(ctx context.Context) {
-	dsn := "postgres://postgres:dev@localhost:5432/firstproject?sslmode=disable"
-	sqldb := sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(dsn)))
-	db := bun.NewDB(sqldb, pgdialect.New())
+	db := GetDBConnection()
 
-	_, err := db.NewCreateTable().IfNotExists().
-		Model((*User)(nil)).Exec(ctx)
+	_, err := db.NewCreateTable().IfNotExists().Model((*User)(nil)).Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
