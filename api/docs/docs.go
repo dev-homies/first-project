@@ -16,6 +16,40 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/metrics": {
+            "get": {
+                "description": "Prometheus metrics",
+                "produces": [
+                    "text/html"
+                ],
+                "summary": "metrics",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/swagger/index.html": {
+            "get": {
+                "description": "Swagger docs",
+                "produces": [
+                    "text/html"
+                ],
+                "summary": "docs",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/": {
             "get": {
                 "description": "Index",
