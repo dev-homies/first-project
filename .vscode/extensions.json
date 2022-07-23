@@ -6,6 +6,9 @@
     "dbaeumer.vscode-eslint",
     "bradlc.vscode-tailwindcss",
     "csstools.postcss",
-    "jock.svg"
+    "jock.svg",
+    "ms-azuretools.vscode-docker",
+    "ms-vscode-remote.remote-containers",
+    "bungcip.better-toml"
   ]
 }

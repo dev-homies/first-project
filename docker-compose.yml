@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+  db:
+    container_name: db
+    build: ./db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data/pgdata
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: firstproject
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: dev
+
+  api:
+    container_name: api
+    build: ./api
+    ports:
+      - "2345:2345"
+      - "4000:4000"
+    volumes:
+      - "./api:/api"
+    environment:
+      DATABASE_HOST: "db"
+    depends_on:
+      - postgres
+
+  web:
+    container_name: web
+    build: ./web
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    volumes:
+      - "./web:/web"
+
+  pgadmin:
+    container_name: pgadmin
+    build: ./pgadmin
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "pgadmin@pgadmin.com"
+      PGADMIN_DEFAULT_PASSWORD: "password"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+      PGADMIN_DISABLE_POSTFIX: "1"
+
+volumes:
+  pgdata:
+  pgadmin:
