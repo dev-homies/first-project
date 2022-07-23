@@ -1,2 +1,6 @@
-# Build directory
-tmp
+# Build directories
+.bin
+.tmp
+
+# Generated docs
+docs

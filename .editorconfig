@@ -10,6 +10,6 @@ max_line_length = 120
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[{*.go,go.mod,go.sum}]
+[{Makefile, *.go,go.mod,go.sum}]
 indent_style = tab
 indent_size = 4

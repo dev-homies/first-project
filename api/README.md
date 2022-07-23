@@ -21,5 +21,5 @@ go run main.go
 ### Format Code
 
 ```
-gofmt -w **/*.go
+make format
 ```
