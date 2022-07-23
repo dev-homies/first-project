@@ -29,6 +29,8 @@ func Register(c *gin.Context) {
 		Password: user.Password,
 	}
 
+	core.Logger.Debugw("Adding User", "name", userInfo.Name)
+
 	res, err := core.Database.NewInsert().Model(userInfo).Exec(context.Background())
 	if err != nil {
 		core.Logger.Warnf("Insert error: %v", err)
@@ -36,7 +38,9 @@ func Register(c *gin.Context) {
 		return
 	}
 
+	core.Logger.Debugw("Finished adding User", "name", userInfo.Name)
 	core.RequestsProcessedMetric.Inc()
+
 	c.JSON(http.StatusOK, gin.H{
 		"userInfo": res,
 	})
