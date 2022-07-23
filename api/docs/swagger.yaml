@@ -1,0 +1,30 @@
+info:
+  contact: {}
+paths:
+  /v1/:
+    get:
+      consumes:
+      - application/json
+      description: Index
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: index
+  /v1/register:
+    post:
+      consumes:
+      - application/json
+      description: Register
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: register
+swagger: "2.0"
