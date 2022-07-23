@@ -19,7 +19,7 @@ func Register(c *gin.Context) {
 	user := models.User{}
 
 	if err := c.ShouldBindJSON(&user); err != nil {
-		core.Logger.Sugar().Warnf("Should bind to JSON error: %v", err)
+		core.Logger.Warnf("Should bind to JSON error: %v", err)
 		c.JSON(http.StatusUnauthorized, "Invalid json provided")
 		return
 	}
@@ -31,11 +31,12 @@ func Register(c *gin.Context) {
 
 	res, err := core.Database.NewInsert().Model(userInfo).Exec(context.Background())
 	if err != nil {
-		core.Logger.Sugar().Warnf("Insert error: %v", err)
+		core.Logger.Warnf("Insert error: %v", err)
 		c.JSON(http.StatusUnauthorized, "Cannot input data.")
 		return
 	}
 
+	core.RequestsProcessedMetric.Inc()
 	c.JSON(http.StatusOK, gin.H{
 		"userInfo": res,
 	})

@@ -30,6 +30,6 @@ func SetupDatabase() {
 func ProvisionDatabase() {
 	_, err := Database.NewCreateTable().IfNotExists().Model((*models.User)(nil)).Exec(context.Background())
 	if err != nil {
-		Logger.Sugar().Fatalw("%v", err)
+		Logger.Fatalw("%v", err)
 	}
 }

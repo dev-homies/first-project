@@ -18,6 +18,6 @@ func SetupConfig() {
 
 	Config.WatchConfig()
 	Config.OnConfigChange(func(event fsnotify.Event) {
-		Logger.Sugar().Info("Config file changed:", event.Name)
+		Logger.Infof("Config file changed: %s", event.Name)
 	})
 }

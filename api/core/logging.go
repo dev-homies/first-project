@@ -4,12 +4,15 @@ import (
 	"go.uber.org/zap"
 )
 
-var Logger *zap.Logger
+var Logger *zap.SugaredLogger
+var RawLogger *zap.Logger
 
 func SetupLogger() {
 	var err error
-	Logger, err = zap.NewDevelopment()
+	RawLogger, err = zap.NewDevelopment()
 	if err != nil {
 		panic("Failed to setup logger")
 	}
+
+	Logger = RawLogger.Sugar()
 }
