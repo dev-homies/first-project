@@ -23,8 +23,8 @@ func SetupDatabase() {
 		Config.GetString("DATABASE_DB"),
 	)
 
-	sqldb := sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(dsn)))
-	Database = bun.NewDB(sqldb, pgdialect.New())
+	db := sql.OpenDB(pgdriver.NewConnector(pgdriver.WithDSN(dsn)))
+	Database = bun.NewDB(db, pgdialect.New())
 }
 
 func ProvisionDatabase() {
