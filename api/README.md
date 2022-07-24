@@ -15,11 +15,11 @@ go get
 ### Run the API
 
 ```
-go run main.go
+make run
 ```
 
 ### Format Code
 
 ```
-gofmt -w **/*.go
+make format
 ```
