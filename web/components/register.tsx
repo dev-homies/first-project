@@ -3,6 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useMutation } from 'react-query';
 import { Axios } from '../utils';
+import axios from 'axios';
 
 type RegisterFormType = {
   name: string;
@@ -36,7 +37,7 @@ const RegisterForm = () => {
   });
 
   const mutation = useMutation((formData: RegisterFormType) => {
-    return Axios.post(`${process.env.NEXT_PUBLIC_API_HOST}/v1/register`, formData);
+    return axios.post(`http://localhost:4000/v1/register`, formData);
   });
 
   const onUserSubmit = (data: RegisterFormType) => mutation.mutate(data);
