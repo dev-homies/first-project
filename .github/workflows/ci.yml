@@ -10,7 +10,7 @@ on:
 
 jobs:
   api:
-    name: API CI
+    name: API
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -34,18 +34,16 @@ jobs:
             ~/go/bin
 
       - name: Run formatters
-        run: if [ "$(gofmt -s -l . | wc -l)" -gt 0 ]; then exit 1; fi
+        run: make format-ci
 
       - name: Run linters
-        run: |
-          go mod tidy
-          git diff --exit-code go.mod
+        run: make lint-ci
 
       - name: Build API
-        run: go build main.go
+        run: make build
 
   web:
-    name: Web CI
+    name: Web
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -72,7 +70,7 @@ jobs:
         run: npm install
 
       - name: Run formatters
-        run: npm run format:ci
+        run: npm run format-ci
 
       - name: Run linters
         run: npm run lint

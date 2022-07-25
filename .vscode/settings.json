@@ -1,10 +1,21 @@
 {
   "editor.formatOnSave": true,
+  "files.eol": "\n",
 
   // golang.go
   "[go]": {
     "editor.defaultFormatter": "golang.go"
   },
+
+  "go.toolsManagement.autoUpdate": true,
+
+  "go.inlayHints.assignVariableTypes": true,
+  "go.inlayHints.compositeLiteralFields": true,
+  "go.inlayHints.compositeLiteralTypes": true,
+  "go.inlayHints.constantValues": true,
+  "go.inlayHints.functionTypeParameters": true,
+  "go.inlayHints.parameterNames": true,
+  "go.inlayHints.rangeVariableTypes": true,
 
   // esbenp.prettier-vscode
   "prettier.useEditorConfig": true,

@@ -1,0 +1,52 @@
+info:
+  contact: {}
+paths:
+  /metrics:
+    get:
+      description: Prometheus metrics
+      produces:
+      - text/html
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: metrics
+  /swagger/index.html:
+    get:
+      description: Swagger docs
+      produces:
+      - text/html
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: docs
+  /v1/:
+    get:
+      consumes:
+      - application/json
+      description: Index
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: index
+  /v1/register:
+    post:
+      consumes:
+      - application/json
+      description: Register
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: register
+swagger: "2.0"

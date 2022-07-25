@@ -9,6 +9,7 @@ RUN apk add build-base
 
 RUN go install github.com/cosmtrek/air@v1.40
 RUN go install github.com/go-delve/delve/cmd/dlv@v1.9
+RUN go install github.com/swaggo/swag/cmd/swag@v1.8
 
 COPY go.mod go.mod
 COPY go.sum go.sum

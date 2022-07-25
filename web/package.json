@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "format": "prettier --write .",
-    "format:ci": "prettier --check .",
+    "format-ci": "prettier --check .",
     "lint": "next lint"
   },
   "dependencies": {

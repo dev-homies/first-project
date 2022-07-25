@@ -1,2 +1,3 @@
-# Build directory
-tmp
+# Build directories
+.bin
+.tmp
